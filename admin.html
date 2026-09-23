@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ritual Café — Inventario</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <header class="admin-header">
+
+        <div class="admin-marca">
+            <span>✦</span>
+            <a href="tienda.html">RITUAL<span>CAFÉ</span></a>
+        </div>
+
+        <nav aria-label="Navegación administrativa">
+            <span class="estado">
+                <i></i>
+                MODO OPERADOR
+            </span>
+
+            <a href="tienda.html">
+                ← Volver a la tienda
+            </a>
+        </nav>
+
+    </header>
+
+
+    <main class="admin-main">
+
+        <section class="admin-intro">
+
+            <div>
+                <span class="etiqueta">INVENTARIO / 003</span>
+
+                <h1>
+                    Agregar<br>
+                    <em>nuevo lote.</em>
+                </h1>
+            </div>
+
+            <p>
+                Registra aquí la mercancía que acaba de llegar.
+                El producto aparecerá inmediatamente en la carta
+                de Ritual Café.
+            </p>
+
+        </section>
+
+
+        <section class="panel-inventario">
+
+            <div class="panel-titulo">
+                <span>01</span>
+
+                <div>
+                    <h2>Nuevo producto</h2>
+                    <p>Completa los datos del lote.</p>
+                </div>
+            </div>
+
+
+            <form
+                id="form-nuevo-producto"
+                class="formulario-admin"
+            >
+
+                <div class="campo campo-nombre">
+
+                    <label for="nombre-producto">
+                        Nombre del café
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre-producto"
+                        name="nombre"
+                        placeholder="Ej. Caturra Rosas — caramelo y cacao"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="fila-campos">
+
+                    <div class="campo">
+
+                        <label for="precio-producto">
+                            Precio
+                            <span>(COP)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="precio-producto"
+                            name="precio"
+                            min="0"
+                            step="500"
+                            placeholder="42000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="stock-producto">
+                            Stock inicial
+                        </label>
+
+                        <input
+                            type="number"
+                            id="stock-producto"
+                            name="stock"
+                            min="0"
+                            step="1"
+                            placeholder="20"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="imagen-producto">
+                        Imagen del producto
+                    </label>
+
+                    <input
+                        type="file"
+                        id="imagen-producto"
+                        name="imagen"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Opcional. Si no seleccionas una imagen,
+                        se generará una automáticamente.
+                    </small>
+
+                </div>
+
+
+                <div class="formulario-final">
+
+                    <p>
+                        Al registrar el lote, el catálogo
+                        se actualizará automáticamente.
+                    </p>
+
+                    <button
+                        type="submit"
+                        class="boton-registrar"
+                    >
+                        Registrar lote
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <p
+                id="mensaje-admin"
+                class="mensaje-admin"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </section>
+
+
+        <section class="nota-admin">
+
+            <span>NOTA</span>
+
+            <p>
+                Este panel trabaja con el inventario en memoria
+                del navegador. Los cambios permanecen mientras
+                la página esté abierta.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer class="admin-footer">
+        <span>RITUALCAFÉ / PANEL DE OPERACIONES</span>
+
+        <a href="tienda.html">
+            Ver catálogo →
+        </a>
+    </footer>
+
+
+    <script src="js/admin.js"></script>
+
+</body>
+</html>

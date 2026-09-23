@@ -1,117 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ritual Café — Café de origen</title>
-<meta name="description" content="Tienda de café de origen Colombiano con panel administrativo para registrar nueva mercancía en tiempo real.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ritual Café — Café de especialidad</title>
+
+    <meta
+        name="description"
+        content="Ritual Café. Café de especialidad, tostado en pequeños lotes."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-<div class="disposicion">
 
-  <header class="barra-lateral">
-    <a href="#contenido-principal" class="enlace-saltar">Saltar al contenido</a>
-    <div class="marca">
-      <span class="marca-icono" aria-hidden="true">☕</span>
-      <p class="marca-nombre">Ritual Café</p>
-      <p class="marca-eslogan">Café de origen, cosecha propia</p>
-    </div>
-    <nav aria-label="Navegación principal" class="nav-principal">
-      <ul>
-        <li><a href="#catalogo">Catálogo</a></li>
-        <li><a href="#panel-admin">Panel administrativo</a></li>
-      </ul>
-    </nav>
-  </header>
+    <a href="#contenido-principal" class="enlace-saltar">
+        Saltar al contenido
+    </a>
 
-  <main id="contenido-principal" class="contenido">
+    <header class="cabecera">
 
-    <section class="hero">
-      <h1>Café cultivado en las montañas del Eje Cafetero</h1>
-      <p class="hero-texto">
-        Cada lote se selecciona, se tuesta y se empaca a mano en la finca.
-        Este sitio muestra el catálogo disponible para los clientes y,
-        más abajo, el panel que usa el operador de la tienda para registrar
-        la llegada de un nuevo lote sin tocar el código.
-      </p>
-    </section>
+        <div class="marca">
+            <span class="marca-simbolo">✦</span>
 
-    <section id="catalogo" class="seccion-catalogo" aria-labelledby="titulo-catalogo">
-      <div class="seccion-encabezado">
-        <h2 id="titulo-catalogo">Catálogo disponible</h2>
-        <p>Elige un café y agrégalo a tu pedido.</p>
-      </div>
-      <div id="lista-catalogo" class="catalogo-grid">
-      </div>
-    </section>
+            <a href="tienda.html" class="marca-nombre">
+                RITUAL<span>CAFÉ</span>
+            </a>
 
-    <section id="panel-admin" class="seccion-admin" aria-labelledby="titulo-admin">
-      <div class="seccion-encabezado">
-        <h2 id="titulo-admin">Panel administrativo</h2>
-        <p>Registra un nuevo lote para que aparezca de inmediato en el catálogo, junto a los demás productos.</p>
-      </div>
-
-      <form id="form-nuevo-producto" class="formulario-admin" novalidate>
-        <div class="campo">
-          <label for="nombre-producto">Nombre del café</label>
-          <input
-            type="text"
-            id="nombre-producto"
-            name="nombre"
-            placeholder="Ej. Caturra Rosas — caramelo"
-            required
-          >
+            <span class="marca-numero">/ 003</span>
         </div>
 
-        <div class="campo">
-          <label for="precio-producto">Precio (COP)</label>
-          <input
-            type="number"
-            id="precio-producto"
-            name="precio"
-            min="0"
-            step="500"
-            placeholder="42000"
-            required
-          >
+        <nav class="navegacion" aria-label="Navegación principal">
+            <a href="#catalogo">La carta</a>
+            <a href="#ritual">El ritual</a>
+            <a href="admin.html" class="enlace-admin">
+                <span>↗</span> Inventario
+            </a>
+        </nav>
+
+    </header>
+
+
+    <main id="contenido-principal">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-indice">
+                <span>CAFÉ DE ESPECIALIDAD</span>
+                <span>POPAYÁN · COLOMBIA</span>
+            </div>
+
+            <div class="hero-contenido">
+
+                <div class="hero-titulo">
+                    <p class="texto-manuscrito">un café para perder el tiempo</p>
+
+                    <h1>
+                        El café también
+                        <em>puede ser un ritual.</em>
+                    </h1>
+                </div>
+
+                <div class="hero-descripcion">
+                    <p>
+                        Pequeños lotes, tostados con paciencia y preparados
+                        para quienes prefieren el café sin prisa.
+                    </p>
+
+                    <a href="#catalogo" class="boton-flecha">
+                        Explorar la carta
+                        <span>↓</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="hero-final">
+                <span>ORIGEN COLOMBIANO</span>
+                <span>TOSTADO ARTESANAL</span>
+                <span>PEQUEÑOS LOTES</span>
+            </div>
+
+        </section>
+
+
+        <!-- CATÁLOGO -->
+
+        <section
+            id="catalogo"
+            class="seccion-catalogo"
+            aria-labelledby="titulo-catalogo"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+                    <span class="numero-seccion">01 /</span>
+
+                    <h2 id="titulo-catalogo">
+                        La carta
+                    </h2>
+                </div>
+
+                <p>
+                    Cafés que cambian con la cosecha.<br>
+                    Elige el que te encuentre.
+                </p>
+
+            </div>
+
+            <div
+                id="lista-catalogo"
+                class="catalogo-grid"
+            >
+                <!-- JavaScript inserta aquí los productos -->
+            </div>
+
+        </section>
+
+
+        <!-- RITUAL -->
+
+        <section
+            id="ritual"
+            class="seccion-ritual"
+            aria-labelledby="titulo-ritual"
+        >
+
+            <div class="ritual-numero">
+                02 /
+            </div>
+
+            <div class="ritual-texto">
+
+                <p class="texto-manuscrito">
+                    no tenemos prisa
+                </p>
+
+                <h2 id="titulo-ritual">
+                    Preparar café<br>
+                    es una pequeña<br>
+                    forma de <em>detenerse.</em>
+                </h2>
+
+                <p>
+                    En Ritual Café creemos que una buena taza no necesita
+                    demasiadas explicaciones. Solo buen grano, agua,
+                    tiempo y ganas de hacerlo bien.
+                </p>
+
+            </div>
+
+            <div class="ritual-nota">
+                <span>RITUAL / 003</span>
+
+                <p>
+                    Tostamos en pequeños lotes para conservar el carácter
+                    de cada origen.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="pie">
+
+        <div>
+            <strong>RITUALCAFÉ</strong>
+            <span>Pequeños lotes · grandes rituales</span>
         </div>
 
-        <div class="campo">
-          <label for="stock-producto">Stock inicial</label>
-          <input
-            type="number"
-            id="stock-producto"
-            name="stock"
-            min="0"
-            step="1"
-            placeholder="20"
-            required
-          >
+        <div>
+            <span>Popayán, Colombia</span>
+            <span>© 2026</span>
         </div>
 
-        <div class="campo campo-archivo">
-          <label for="imagen-producto">Imagen del producto</label>
-          <input
-            type="file"
-            id="imagen-producto"
-            name="imagen"
-            accept="image/*"
-          >
-        </div>
+    </footer>
 
-        <button type="submit" class="boton-primario">Agregar producto al catálogo</button>
-      </form>
 
-      <p id="mensaje-admin" class="mensaje-admin" role="status" aria-live="polite"></p>
-    </section>
+    <script src="js/script.js"></script>
 
-  </main>
-</div>
-
-<script src="js/script.js"></script>
 </body>
 </html>
