@@ -4,6 +4,11 @@
 // ======================================================
 
 
+// ---------- CONFIGURACIÓN ----------
+
+const CLAVE_INVENTARIO = "ritualCafeInventario";
+
+
 // ---------- IMAGEN PLACEHOLDER ----------
 
 function crearImagenPlaceholder(colorFondo, colorIcono) {
@@ -88,9 +93,11 @@ const PALETA_TUESTES = [
 ];
 
 
-// ---------- INVENTARIO GLOBAL ----------
+// ======================================================
+// INVENTARIO INICIAL
+// ======================================================
 
-let inventario = [
+const inventarioInicial = [
 
     {
         id: 1,
@@ -135,18 +142,99 @@ let inventario = [
 ];
 
 
-// ---------- MENSAJE ----------
+// ======================================================
+// CARGAR INVENTARIO
+// ======================================================
+
+function cargarInventario() {
+
+    const inventarioGuardado =
+        localStorage.getItem(
+            CLAVE_INVENTARIO
+        );
+
+
+    if (inventarioGuardado) {
+
+        try {
+
+            return JSON.parse(
+                inventarioGuardado
+            );
+
+        } catch (error) {
+
+            console.error(
+                "No se pudo leer el inventario guardado.",
+                error
+            );
+
+            return [...inventarioInicial];
+        }
+    }
+
+
+    return [...inventarioInicial];
+}
+
+
+// ---------- INVENTARIO GLOBAL ----------
+
+let inventario = cargarInventario();
+
+
+// ======================================================
+// GUARDAR INVENTARIO
+// ======================================================
+
+function guardarInventario() {
+
+    localStorage.setItem(
+        CLAVE_INVENTARIO,
+        JSON.stringify(inventario)
+    );
+
+}
+
+
+// ======================================================
+// MOSTRAR MENSAJE
+// ======================================================
 
 function mostrarMensaje(texto) {
 
     const mensaje =
-        document.getElementById("mensaje-admin");
+        document.getElementById(
+            "mensaje-admin"
+        );
 
     mensaje.textContent = texto;
+
 }
 
 
-// ---------- FORMULARIO ----------
+// ======================================================
+// ACTUALIZAR NÚMERO DEL PANEL
+// ======================================================
+
+function actualizarNumeroPanel() {
+
+    const numero =
+        document.querySelector(
+            ".panel-titulo > span"
+        );
+
+
+    numero.textContent =
+        String(inventario.length)
+            .padStart(2, "0");
+
+}
+
+
+// ======================================================
+// FORMULARIO
+// ======================================================
 
 function inicializarFormularioAdmin() {
 
@@ -163,24 +251,27 @@ function inicializarFormularioAdmin() {
             evento.preventDefault();
 
 
-            // ------------------------------------------
+            // ==========================================
             // 1. OBTENER INPUTS
-            // ------------------------------------------
+            // ==========================================
 
             const campoNombre =
                 document.getElementById(
                     "nombre-producto"
                 );
 
+
             const campoPrecio =
                 document.getElementById(
                     "precio-producto"
                 );
 
+
             const campoStock =
                 document.getElementById(
                     "stock-producto"
                 );
+
 
             const campoImagen =
                 document.getElementById(
@@ -188,31 +279,32 @@ function inicializarFormularioAdmin() {
                 );
 
 
-            // ------------------------------------------
-            // 2. OBTENER VALORES
-            // ------------------------------------------
+            // ==========================================
+            // 2. OBTENER LOS VALORES
+            // ==========================================
 
             const nombre =
                 campoNombre.value.trim();
 
-
-            // .value devuelve String.
-            // Convertimos explícitamente a Number.
-
             const precio =
-                Number(campoPrecio.value);
+                Number(
+                    campoPrecio.value
+                );
+
 
             const stock =
-                Number(campoStock.value);
+                Number(
+                    campoStock.value
+                );
 
 
             const archivo =
                 campoImagen.files[0];
 
 
-            // ------------------------------------------
+            // ==========================================
             // 3. VALIDACIÓN
-            // ------------------------------------------
+            // ==========================================
 
             if (
                 !nombre ||
@@ -223,26 +315,19 @@ function inicializarFormularioAdmin() {
             ) {
 
                 mostrarMensaje(
-                    "Revisa los datos antes de registrar el lote."
+                    "Revisa el nombre, precio y stock antes de continuar."
                 );
 
                 return;
             }
 
 
-            // ------------------------------------------
+            // ==========================================
             // 4. CREAR PRODUCTO
-            // ------------------------------------------
+            // ==========================================
 
             const agregarAlInventario =
                 (imagenFinal) => {
-
-
-                    // Objeto literal.
-
-                    // Tiene EXACTAMENTE las mismas
-                    // propiedades que los productos
-                    // originales.
 
                     const nuevoProducto = {
 
@@ -259,43 +344,53 @@ function inicializarFormularioAdmin() {
                     };
 
 
-                    // ----------------------------------
-                    // 5. INYECTAR AL ARREGLO
-                    // ----------------------------------
+                    // ==================================
+                    // 5. INSERTAR EN EL ARREGLO
+                    // ==================================
 
                     inventario.push(
                         nuevoProducto
                     );
 
 
-                    // ----------------------------------
-                    // 6. LIMPIAR Y REDIBUJAR
-                    // ----------------------------------
+                    // ==================================
+                    // 6. GUARDAR EN LOCALSTORAGE
+                    // ==================================
 
-                    // En esta versión administrativa
-                    // mostramos inmediatamente el
-                    // producto recién creado.
+                    guardarInventario();
+
+
+                    // ==================================
+                    // 7. MENSAJE
+                    // ==================================
 
                     mostrarMensaje(
-                        `"${nuevoProducto.nombre}" fue registrado correctamente.`
+                        `"${nuevoProducto.nombre}" fue agregado al inventario.`
                     );
 
+
+                    // ==================================
+                    // 8. LIMPIAR FORMULARIO
+                    // ==================================
 
                     formulario.reset();
 
 
-                    // ----------------------------------
-                    // 7. MOSTRAR CONFIRMACIÓN
-                    // ----------------------------------
+                    // ==================================
+                    // 9. ACTUALIZAR INTERFAZ
+                    // ==================================
 
-                    const numero =
-                        document.querySelector(
-                            ".panel-titulo > span"
-                        );
+                    actualizarNumeroPanel();
 
-                    numero.textContent =
-                        String(nuevoProducto.id)
-                            .padStart(2, "0");
+
+                    // ==================================
+                    // 10. MOSTRAR EN CONSOLA
+                    // ==================================
+
+                    console.log(
+                        "Nuevo producto:",
+                        nuevoProducto
+                    );
 
 
                     console.log(
@@ -305,16 +400,18 @@ function inicializarFormularioAdmin() {
 
 
                     console.log(
-                        "Nuevo producto:",
-                        nuevoProducto
+                        "Inventario guardado en localStorage:",
+                        localStorage.getItem(
+                            CLAVE_INVENTARIO
+                        )
                     );
 
                 };
 
 
-            // ------------------------------------------
-            // 8. IMAGEN
-            // ------------------------------------------
+            // ==========================================
+            // 11. PROCESAR IMAGEN
+            // ==========================================
 
             if (archivo) {
 
@@ -356,6 +453,7 @@ function inicializarFormularioAdmin() {
                     archivo
                 );
 
+
             } else {
 
                 const color =
@@ -379,11 +477,15 @@ function inicializarFormularioAdmin() {
 }
 
 
-// ---------- INICIALIZACIÓN ----------
+// ======================================================
+// INICIALIZACIÓN
+// ======================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+
+        actualizarNumeroPanel();
 
         inicializarFormularioAdmin();
 

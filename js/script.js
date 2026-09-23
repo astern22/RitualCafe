@@ -4,6 +4,11 @@
 // ======================================================
 
 
+// ---------- CONFIGURACIÓN ----------
+
+const CLAVE_INVENTARIO = "ritualCafeInventario";
+
+
 // ---------- IMAGEN PLACEHOLDER ----------
 
 function crearImagenPlaceholder(colorFondo, colorIcono) {
@@ -87,32 +92,7 @@ const PALETA_TUESTES = [
     "#523d30"
 ];
 
-
-// ---------- FORMATEAR PRECIO ----------
-
-function formatearPrecio(valor) {
-
-    return valor.toLocaleString("es-CO", {
-        style: "currency",
-        currency: "COP",
-        maximumFractionDigits: 0
-    });
-}
-
-
-// ---------- INVENTARIO ----------
-//
-// Este es el arreglo global del inventario.
-// Los productos tienen exactamente estas propiedades:
-//
-// id
-// nombre
-// precio
-// stock
-// imagen
-//
-
-let inventario = [
+const inventarioInicial = [
 
     {
         id: 1,
@@ -157,12 +137,79 @@ let inventario = [
 ];
 
 
+// ======================================================
+// CARGAR INVENTARIO
+// ======================================================
+
+function cargarInventario() {
+
+    const inventarioGuardado =
+        localStorage.getItem(CLAVE_INVENTARIO);
+
+
+    if (inventarioGuardado) {
+
+        try {
+
+            return JSON.parse(inventarioGuardado);
+
+        } catch (error) {
+
+            console.error(
+                "No se pudo leer el inventario guardado.",
+                error
+            );
+
+            return [...inventarioInicial];
+        }
+    }
+
+    return [...inventarioInicial];
+}
+
+
+// ---------- INVENTARIO GLOBAL ----------
+
+let inventario = cargarInventario();
+
+
 // ---------- ÚLTIMO PRODUCTO AGREGADO ----------
 
 let ultimoIdAgregado = null;
 
 
-// ---------- CREAR TARJETA ----------
+// ======================================================
+// GUARDAR INVENTARIO
+// ======================================================
+
+function guardarInventario() {
+
+    localStorage.setItem(
+        CLAVE_INVENTARIO,
+        JSON.stringify(inventario)
+    );
+
+}
+
+
+// ======================================================
+// FORMATEAR PRECIO
+// ======================================================
+
+function formatearPrecio(valor) {
+
+    return valor.toLocaleString("es-CO", {
+        style: "currency",
+        currency: "COP",
+        maximumFractionDigits: 0
+    });
+
+}
+
+
+// ======================================================
+// CREAR TARJETA
+// ======================================================
 
 function crearTarjeta(producto) {
 
@@ -172,11 +219,13 @@ function crearTarjeta(producto) {
 
 
     if (producto.id === ultimoIdAgregado) {
+
         tarjeta.classList.add("tarjeta-nueva");
+
     }
 
 
-    // Imagen
+    // ---------- IMAGEN ----------
 
     const imagen = document.createElement("img");
 
@@ -189,30 +238,31 @@ function crearTarjeta(producto) {
     imagen.loading = "lazy";
 
 
-    // Cuerpo
+    // ---------- CUERPO ----------
 
     const cuerpo = document.createElement("div");
 
     cuerpo.className = "tarjeta-cuerpo";
 
 
-    // Nombre
+    // ---------- NOMBRE ----------
 
     const titulo = document.createElement("h3");
 
     titulo.textContent = producto.nombre;
 
 
-    // Precio
+    // ---------- PRECIO ----------
 
     const precio = document.createElement("p");
 
     precio.className = "tarjeta-precio";
 
-    precio.textContent = formatearPrecio(producto.precio);
+    precio.textContent =
+        formatearPrecio(producto.precio);
 
 
-    // Stock
+    // ---------- STOCK ----------
 
     const stock = document.createElement("p");
 
@@ -228,14 +278,18 @@ function crearTarjeta(producto) {
     } else {
 
         if (producto.stock <= 5) {
+
             stock.classList.add("stock-bajo");
+
         }
 
-        stock.textContent = `Quedan ${producto.stock} unidades`;
+        stock.textContent =
+            `Quedan ${producto.stock} unidades`;
+
     }
 
 
-    // Botón
+    // ---------- BOTÓN ----------
 
     const boton = document.createElement("button");
 
@@ -247,12 +301,14 @@ function crearTarjeta(producto) {
 
     boton.dataset.id = producto.id;
 
-    boton.disabled = producto.stock === 0;
+    boton.disabled =
+        producto.stock === 0;
 
 
-    boton.addEventListener("click", () => {
-        comprarProducto(producto.id);
-    });
+    boton.addEventListener(
+        "click",
+        () => comprarProducto(producto.id)
+    );
 
 
     cuerpo.append(
@@ -273,56 +329,83 @@ function crearTarjeta(producto) {
 }
 
 
-// ---------- RENDERIZAR CATÁLOGO ----------
+// ======================================================
+// RENDERIZAR CATÁLOGO
+// ======================================================
 
 function renderizarCatalogo() {
 
     const contenedor =
-        document.getElementById("lista-catalogo");
+        document.getElementById(
+            "lista-catalogo"
+        );
 
 
-    // Ciclo de limpieza
+    // ------------------------------------------
+    // CICLO DE LIMPIEZA
+    // ------------------------------------------
 
     contenedor.innerHTML = "";
 
 
-    // Ciclo de redibujado
+    // ------------------------------------------
+    // CICLO DE REDIBUJADO
+    // ------------------------------------------
 
-    inventario.forEach((producto) => {
+    inventario.forEach(
+        (producto) => {
 
-        contenedor.appendChild(
-            crearTarjeta(producto)
-        );
+            contenedor.appendChild(
+                crearTarjeta(producto)
+            );
 
-    });
+        }
+    );
+
 }
 
 
-// ---------- COMPRA ----------
+// ======================================================
+// COMPRA
+// ======================================================
 
 function comprarProducto(id) {
 
-    const producto = inventario.find(
-        (item) => item.id === id
-    );
+    const producto =
+        inventario.find(
+            (item) => item.id === id
+        );
 
 
-    if (!producto || producto.stock === 0) {
+    if (
+        !producto ||
+        producto.stock === 0
+    ) {
+
         return;
+
     }
 
+
+    // Reducimos el stock.
 
     producto.stock -= 1;
 
 
+    // Guardamos el cambio.
+
+    guardarInventario();
+
     ultimoIdAgregado = null;
 
-
     renderizarCatalogo();
+
 }
 
 
-// ---------- INICIALIZAR ----------
+// ======================================================
+// INICIALIZACIÓN
+// ======================================================
 
 document.addEventListener(
     "DOMContentLoaded",
